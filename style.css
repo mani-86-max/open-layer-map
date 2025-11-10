@@ -2,21 +2,97 @@ html, body {
   margin: 0;
   padding: 0;
   height: 100%;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f8f9fa;
 }
 
+/* Map container */
 .map {
   width: 100%;
   height: 100vh;
+  position: relative;
 }
 
+/* Toolbar container */
 #toolbar {
   position: absolute;
   top: 10px;
   left: 10px;
-  width: 250px;
+  width: auto;
+  background-color: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(6px);
+  border-radius: 12px;
+  padding: 10px 12px;
   z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: center;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
 }
 
+/* Toolbar heading */
+#toolbar h5 {
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 8px;
+}
+
+/* Icon button base style */
+.icon-btn {
+  background: #fff;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  width: 42px;
+  height: 42px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: all 0.25s ease-in-out;
+  cursor: pointer;
+}
+
+.icon-btn:hover {
+  background-color: #f1f1f1;
+  transform: scale(1.1);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+}
+
+/* Icon images inside buttons */
+.icon-btn img {
+  width: 22px;
+  height: 22px;
+  pointer-events: none;
+}
+
+/* Input and dropdown styling */
+#basemapSelect,
+#searchInput {
+  font-size: 14px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  padding: 6px 10px;
+  width: 100%;
+  outline: none;
+}
+
+#basemapSelect:focus,
+#searchInput:focus {
+  border-color: #007bff;
+  box-shadow: 0 0 4px rgba(0, 123, 255, 0.4);
+}
+
+/* Input group button alignment */
+.input-group button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* General button override */
 button {
   cursor: pointer;
+  border-radius: 8px !important;
+  border: none;
+  background: none;
 }

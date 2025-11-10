@@ -17,29 +17,48 @@ const terrainLayer = new ol.layer.Tile({
 const vectorSource = new ol.source.Vector({ wrapX: false });
 const vectorLayer = new ol.layer.Vector({ source: vectorSource });
 
+// --- Mumbai coordinates ---
+const mumbaiCoords = ol.proj.fromLonLat([72.8777, 19.0760]); // Mumbai
+
 // --- Map Initialization ---
 const map = new ol.Map({
   target: 'map',
   layers: [osmLayer, satelliteLayer, terrainLayer, vectorLayer],
   view: new ol.View({
-    center: ol.proj.fromLonLat([77.209, 28.6139]), // India
-    zoom: 5
+    center: mumbaiCoords, // Default center to Mumbai
+    zoom: 10
   })
 });
 
 // --- Toolbar Buttons ---
 document.getElementById("homeBtn").onclick = () => {
-  map.getView().animate({ center: ol.proj.fromLonLat([77.209, 28.6139]), zoom: 5, duration: 1000 });
+  // Return to Mumbai when Home is clicked
+  map.getView().animate({
+    center: mumbaiCoords,
+    zoom: 10,
+    duration: 1000
+  });
 };
-document.getElementById("zoomInBtn").onclick = () => map.getView().setZoom(map.getView().getZoom() + 1);
-document.getElementById("zoomOutBtn").onclick = () => map.getView().setZoom(map.getView().getZoom() - 1);
+
+document.getElementById("zoomInBtn").onclick = () =>
+  map.getView().setZoom(map.getView().getZoom() + 1);
+
+document.getElementById("zoomOutBtn").onclick = () =>
+  map.getView().setZoom(map.getView().getZoom() - 1);
+
 document.getElementById("locBtn").onclick = () => {
   if (navigator.geolocation) {
     navigator.geolocation.getCurrentPosition(pos => {
       const coords = [pos.coords.longitude, pos.coords.latitude];
-      map.getView().animate({ center: ol.proj.fromLonLat(coords), zoom: 12, duration: 1000 });
+      map.getView().animate({
+        center: ol.proj.fromLonLat(coords),
+        zoom: 12,
+        duration: 1000
+      });
     });
-  } else alert("Geolocation not supported!");
+  } else {
+    alert("Geolocation not supported!");
+  }
 };
 
 // --- Drawing Tools ---
@@ -82,10 +101,14 @@ document.getElementById("searchBtn").onclick = async () => {
     const data = await response.json();
     if (data.length > 0) {
       const { lon, lat, display_name } = data[0];
-      map.getView().animate({ center: ol.proj.fromLonLat([parseFloat(lon), parseFloat(lat)]), zoom: 10, duration: 1000 });
-      alert(` Found: ${display_name}`);
+      map.getView().animate({
+        center: ol.proj.fromLonLat([parseFloat(lon), parseFloat(lat)]),
+        zoom: 10,
+        duration: 1000
+      });
+      alert(`Found: ${display_name}`);
     } else alert("No location found!");
   } catch {
-    alert(" Error fetching location. Please try again later.");
+    alert("Error fetching location. Please try again later.");
   }
 };
